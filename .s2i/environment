@@ -1,1 +1,3 @@
-DOTNET_STARTUP_PROJECT=src/PersianAiChat.Api/PersianAiChat.Api.csproj
+DOTNET_STARTUP_PROJECT=src/PersianAiChat.Api
+DOTNET_CONFIGURATION=Release
+DOTNET_ASSEMBLY_NAME=PersianAiChat.Api
