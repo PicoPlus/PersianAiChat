@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#3b82f6" />
+  <meta name="description" content="دستیار هوش مصنوعی — پاسخ‌گویی هوشمند با جست‌وجوی وب" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="دستیار هوشمند" />
+  <title>دستیار هوش مصنوعی</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="screen-login" class="screen active">
+    <div class="auth-container">
+      <div class="auth-logo">
+        <div class="logo-icon">🤖</div>
+        <h1 class="auth-title">دستیار هوش مصنوعی</h1>
+        <p class="auth-subtitle">پاسخ‌گویی هوشمند با جست‌وجوی وب</p>
+      </div>
+
+      <div class="auth-card" id="card-phone">
+        <p class="field-label">شماره موبایل خود را وارد کنید</p>
+        <div class="input-group">
+          <input
+            id="input-phone"
+            type="tel"
+            inputmode="numeric"
+            placeholder="۰۹۱۲۲۲۲۲۲۲۲"
+            autocomplete="tel"
+            class="input-field"
+            maxlength="13"
+          />
+        </div>
+        <div id="phone-error" class="error-message" role="alert" aria-live="polite"></div>
+        <button id="btn-request-otp" class="btn-primary" type="button">
+          <span class="btn-text">ادامه</span>
+          <span class="btn-loader hidden">در حال بررسی...</span>
+        </button>
+      </div>
+
+      <div class="auth-card hidden" id="card-otp">
+        <p class="field-label">کد تأیید ارسال شد</p>
+        <p class="otp-sent-to">کد ارسال‌شده به: <span id="otp-phone-display" class="phone-display"></span></p>
+        <div class="otp-inputs" id="otp-inputs" role="group" aria-label="کد تأیید شش رقمی">
+          <input type="tel" inputmode="numeric" maxlength="1" class="otp-box" data-index="0" autocomplete="one-time-code" aria-label="رقم اول" />
+          <input type="tel" inputmode="numeric" maxlength="1" class="otp-box" data-index="1" aria-label="رقم دوم" />
+          <input type="tel" inputmode="numeric" maxlength="1" class="otp-box" data-index="2" aria-label="رقم سوم" />
+          <input type="tel" inputmode="numeric" maxlength="1" class="otp-box" data-index="3" aria-label="رقم چهارم" />
+          <input type="tel" inputmode="numeric" maxlength="1" class="otp-box" data-index="4" aria-label="رقم پنجم" />
+          <input type="tel" inputmode="numeric" maxlength="1" class="otp-box" data-index="5" aria-label="رقم ششم" />
+        </div>
+        <div id="otp-error" class="error-message" role="alert" aria-live="polite"></div>
+        <button id="btn-verify-otp" class="btn-primary" type="button">
+          <span class="btn-text">تأیید</span>
+          <span class="btn-loader hidden">در حال بررسی...</span>
+        </button>
+        <div class="resend-section">
+          <span id="resend-countdown" class="countdown-text"></span>
+          <button id="btn-resend" class="btn-link hidden" type="button">ارسال مجدد کد</button>
+        </div>
+        <button id="btn-back-phone" class="btn-link btn-back" type="button">← تغییر شماره</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Screen -->
+  <div id="screen-chat" class="screen hidden">
+    <!-- Sidebar Overlay (mobile) -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar" role="navigation" aria-label="ناوبری گفت‌وگوها">
+      <div class="sidebar-header">
+        <span class="sidebar-logo">🤖 دستیار هوشمند</span>
+        <button id="btn-close-sidebar" class="icon-btn" aria-label="بستن منو">✕</button>
+      </div>
+      <button id="btn-new-chat" class="btn-new-chat" type="button">
+        <span>＋</span> گفت‌وگوی جدید
+      </button>
+      <div id="conversations-list" class="conversations-list" role="list"></div>
+      <div class="sidebar-footer">
+        <button id="btn-settings" class="sidebar-footer-btn" type="button">⚙ تنظیمات</button>
+        <button id="btn-logout" class="sidebar-footer-btn btn-logout-style" type="button">↩ خروج</button>
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <main class="chat-main" role="main">
+      <!-- Header -->
+      <header class="chat-header" role="banner">
+        <button id="btn-toggle-sidebar" class="icon-btn" aria-label="باز کردن منو">☰</button>
+        <span class="chat-header-title">دستیار هوش مصنوعی</span>
+        <div class="token-counter" id="token-counter" title="توکن مصرف‌شده" role="button" tabindex="0" aria-label="نمایش جزئیات مصرف توکن">
+          <span class="token-icon" aria-hidden="true">🪙</span>
+          <span id="token-count-display" class="token-count">۰</span>
+        </div>
+      </header>
+
+      <!-- Token Panel -->
+      <div id="token-panel" class="token-panel hidden" role="dialog" aria-modal="true" aria-label="جزئیات مصرف توکن">
+        <div class="token-panel-inner">
+          <div class="token-panel-header">
+            <strong>توکن مصرف‌شده</strong>
+            <button id="btn-close-token-panel" class="icon-btn" aria-label="بستن">✕</button>
+          </div>
+          <dl class="token-panel-rows">
+            <div class="token-row"><dt>کل توکن:</dt><dd id="tp-total">۰</dd></div>
+            <div class="token-row"><dt>ورودی:</dt><dd id="tp-prompt">۰</dd></div>
+            <div class="token-row"><dt>خروجی:</dt><dd id="tp-completion">۰</dd></div>
+            <div class="token-row"><dt>استدلال:</dt><dd id="tp-reasoning">۰</dd></div>
+            <div class="token-row"><dt>هزینه:</dt><dd id="tp-cost">۰</dd></div>
+            <div class="token-row"><dt>جست‌وجوی وب:</dt><dd id="tp-websearch">۰</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Messages Area -->
+      <div id="messages-area" class="messages-area" role="log" aria-live="polite" aria-label="پیام‌های گفت‌وگو">
+        <!-- Welcome state -->
+        <div id="welcome-screen" class="welcome-screen">
+          <div class="welcome-icon">🤖</div>
+          <h2 class="welcome-title">دستیار هوش مصنوعی</h2>
+          <p class="welcome-subtitle">چطور می‌توانم کمک کنم؟</p>
+          <div class="suggestion-cards" role="list">
+            <button class="suggestion-card" role="listitem" data-prompt="آخرین اخبار چیست؟">
+              <span class="suggestion-icon">📰</span>
+              <span>آخرین اخبار چیست؟</span>
+            </button>
+            <button class="suggestion-card" role="listitem" data-prompt="ثبت‌نام دانشگاه آزاد چه زمانی شروع می‌شود؟">
+              <span class="suggestion-icon">🎓</span>
+              <span>ثبت‌نام دانشگاه آزاد چه زمانی است؟</span>
+            </button>
+            <button class="suggestion-card" role="listitem" data-prompt="این متن را خلاصه کن:">
+              <span class="suggestion-icon">✂️</span>
+              <span>این متن را خلاصه کن</span>
+            </button>
+            <button class="suggestion-card" role="listitem" data-prompt="یک برنامه مطالعه برای من طراحی کن">
+              <span class="suggestion-icon">📅</span>
+              <span>یک برنامه مطالعه برایم طراحی کن</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div id="typing-indicator" class="typing-indicator hidden" aria-live="polite">
+        <div class="typing-bubble">
+          <span id="typing-text" class="typing-text">در حال پاسخ‌گویی...</span>
+          <span class="typing-dots"><span></span><span></span><span></span></span>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area" role="group" aria-label="ناحیه ارسال پیام">
+        <div class="input-row">
+          <button id="btn-attach" class="icon-btn input-icon-btn" aria-label="پیوست" type="button">＋</button>
+          <textarea
+            id="message-input"
+            class="message-textarea"
+            placeholder="پیام خود را بنویسید..."
+            rows="1"
+            aria-label="متن پیام"
+            autocomplete="off"
+          ></textarea>
+          <button id="btn-send" class="btn-send" aria-label="ارسال پیام" type="button" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" aria-hidden="true">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="تنظیمات">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>تنظیمات</strong>
+        <button id="btn-close-settings" class="icon-btn" aria-label="بستن">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <label class="settings-label">پوسته</label>
+          <div class="theme-buttons" role="group" aria-label="انتخاب پوسته">
+            <button class="theme-btn" data-theme="light" type="button">روشن</button>
+            <button class="theme-btn active" data-theme="system" type="button">سیستم</button>
+            <button class="theme-btn" data-theme="dark" type="button">تاریک</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/chat.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

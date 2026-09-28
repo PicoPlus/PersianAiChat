@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>PersianAiChat.IntegrationTests</RootNamespace>
+    <AssemblyName>PersianAiChat.IntegrationTests</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PersianAiChat.Api\PersianAiChat.Api.csproj" />
+    <ProjectReference Include="..\..\src\PersianAiChat.Application\PersianAiChat.Application.csproj" />
+    <ProjectReference Include="..\..\src\PersianAiChat.Infrastructure\PersianAiChat.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
+    <PackageReference Include="FluentAssertions" Version="6.12.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.11" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="..\..\tests\Fixtures\gapgpt-response.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

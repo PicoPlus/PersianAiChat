@@ -1,0 +1,66 @@
+services:
+  persian-ai-chat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: persian-ai-chat:latest
+    container_name: persian-ai-chat
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - chat-data:/data
+    environment:
+      # ── Database ─────────────────────────────────────────────
+      ConnectionStrings__Default: "Data Source=/data/persianaichat.db"
+
+      # ── GapGPT ───────────────────────────────────────────────
+      GapGpt__ApiKey: "${GAPGPT_API_KEY}"
+      GapGpt__ApiUrl: "https://api.gapgpt.app/v1/chat/completions"
+      GapGpt__Model: "gpt-6-luna"
+      GapGpt__TimeoutSeconds: "120"
+
+      # ── HubSpot ──────────────────────────────────────────────
+      HubSpot__AccessToken: "${HUBSPOT_ACCESS_TOKEN}"
+      HubSpot__ApiBaseUrl: "https://api.hubapi.com"
+      HubSpot__TimeoutSeconds: "30"
+
+      # ── SMS.ir ───────────────────────────────────────────────
+      SmsIr__ApiKey: "${SMSIR_API_KEY}"
+      SmsIr__LineNumber: "${SMSIR_LINE_NUMBER}"
+      SmsIr__TemplateId: "${SMSIR_TEMPLATE_ID}"
+      SmsIr__ApiUrl: "https://api.sms.ir/v1"
+
+      # ── Security ─────────────────────────────────────────────
+      Security__JwtSecretKey: "${JWT_SECRET_KEY}"
+      Security__CookieName: ".PersianAiChat.Auth"
+      Security__SessionLifetimeDays: "7"
+      Security__JwtIssuer: "PersianAiChat"
+      Security__JwtAudience: "PersianAiChatUsers"
+
+      # ── OTP ──────────────────────────────────────────────────
+      Otp__ExpirationMinutes: "5"
+      Otp__MaxAttempts: "5"
+      Otp__MaxRequestsPerWindow: "5"
+      Otp__RateWindowMinutes: "15"
+
+      # ── Rate Limiting ─────────────────────────────────────────
+      RateLimit__OtpRequestsPerWindow: "5"
+      RateLimit__OtpWindowMinutes: "15"
+      RateLimit__ChatRequestsPerMinute: "30"
+
+      # ── CORS ──────────────────────────────────────────────────
+      AllowedOrigins: "${ALLOWED_ORIGINS:-http://localhost:8080}"
+
+      # ── ASP.NET Core ─────────────────────────────────────────
+      ASPNETCORE_ENVIRONMENT: "Production"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  chat-data:
+    driver: local

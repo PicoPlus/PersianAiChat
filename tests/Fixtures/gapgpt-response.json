@@ -1,0 +1,101 @@
+{
+  "id": "gen-1790594330-iPBrjQ679xUIWCRa3xaT",
+  "object": "chat.completion",
+  "created": 1790594330,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+    {
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "stop",
+      "native_finish_reason": "completed",
+      "message": {
+        "role": "assistant",
+        "content": "اگر منظورت **کارشناسی پیوسته بدون کنکور برای ورودی مهر ۱۴۰۵** است، طبق آخرین اطلاعیه‌ای که پیدا کردم، انتخاب رشته‌اش هنوز آغاز نشده بود. اما **کارشناسی ناپیوسته** جداگانه است و ثبت‌نام آن قبلاً شروع شده بود. ([tg.me](https://tg.me/azaadnews/7252?tr=en&utm_source=openai))\n\nبرای دیدن اطلاعیه تازه یا تغییر احتمالی، سامانه پذیرش دانشگاه آزاد را بررسی کن: **azmoon.iau.ir**. اگر بگویی منظورت کارشناسی پیوسته است یا ناپیوسته، دقیق‌تر راهنمایی‌ات می‌کنم.",
+        "refusal": null,
+        "reasoning": "**Searching university admissions**\n\nI need to provide the answer in Persian since the user is asking about enrollment for a bachelor's degree at Azad University. The current date is September 28, 2026, but I likely need to browse for the latest details. It seems I need to clarify if they mean undergraduate admissions or registration for the current academic year, 1405-1406. I'll search the web for official Azad admissions and check for any typos, like in the word کارشناسی.",
+        "reasoning_details": [
+          {
+            "type": "reasoning.summary",
+            "summary": "**Searching university admissions**\n\nI need to provide the answer in Persian since the user is asking about enrollment for a bachelor's degree at Azad University.",
+            "format": "openai-responses-v1",
+            "index": 0
+          },
+          {
+            "type": "reasoning.encrypted",
+            "data": "gAAAAABquk0datRR_3W67awkmbSfJLd3gLEr_18deCsIGwffI06Xx_ENCRYPTED_DATA_REDACTED",
+            "format": "openai-responses-v1",
+            "id": "rs_0c327c3c76b1ee59016aba4d1b63a887d19acd5db54b1a97a7",
+            "index": 1
+          },
+          {
+            "type": "reasoning.summary",
+            "summary": "**Checking registration deadlines**\n\nI need to find out if the registration for a bachelor's program is currently open.",
+            "format": "openai-responses-v1",
+            "index": 2
+          },
+          {
+            "type": "reasoning.encrypted",
+            "data": "gAAAAABquk0gkIE5tzOyMZUEnbOegN6GTbxQfv5ENCRYPTED_DATA_REDACTED",
+            "format": "openai-responses-v1",
+            "id": "rs_0c327c3c76b1ee59016aba4d1ea8e487d182bc962dcb0919e6",
+            "index": 3
+          },
+          {
+            "type": "reasoning.summary",
+            "summary": "**Clarifying registration details**\n\nI see that the user's question about کارشناسی might be about the registration for bachelor's degree programs.",
+            "format": "openai-responses-v1",
+            "index": 4
+          },
+          {
+            "type": "reasoning.encrypted",
+            "data": "gAAAAABquk0iCoq48NFbfKUFmpE8w_5fGsy9wEC4ENCRYPTED_DATA_REDACTED",
+            "format": "openai-responses-v1",
+            "id": "rs_0c327c3c76b1ee59016aba4d2165d487d1bc5bdb43616b5203",
+            "index": 5
+          }
+        ],
+        "annotations": [
+          {
+            "type": "url_citation",
+            "url_citation": {
+              "url": "https://tg.me/azaadnews/7252?tr=en&utm_source=openai",
+              "title": "قابل توجه دانشجویان ورودی ۱۴۰۵ | آخرین جزئیات از ثبت‌نام و پذیرش… — Azaad news | ‌آزاد نیـــوز — TG.ME",
+              "start_index": 208,
+              "end_index": 271
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 29866,
+    "completion_tokens": 1466,
+    "total_tokens": 31332,
+    "cost": 0.04332675,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 4370,
+      "cache_write_tokens": 18,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.04332675,
+      "upstream_inference_prompt_cost": 0.00259375,
+      "upstream_inference_completions_cost": 0.000733
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1312,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    },
+    "server_tool_use_details": {
+      "web_search_requests": 4
+    }
+  }
+}
