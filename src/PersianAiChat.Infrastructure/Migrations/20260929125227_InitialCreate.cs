@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PersianAiChat.Infrastructure.Persistence.Migrations
+namespace PersianAiChat.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -11,6 +11,20 @@ namespace PersianAiChat.Infrastructure.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "DataProtectionKeys",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FriendlyName = table.Column<string>(type: "TEXT", nullable: true),
+                    Xml = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataProtectionKeys", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "OtpRequests",
                 columns: table => new
@@ -138,26 +152,74 @@ namespace PersianAiChat.Infrastructure.Persistence.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            // Indexes
-            migrationBuilder.CreateIndex(name: "IX_OtpRequests_Phone", table: "OtpRequests", column: "Phone");
-            migrationBuilder.CreateIndex(name: "IX_OtpRequests_Phone_CreatedAt", table: "OtpRequests", columns: new[] { "Phone", "CreatedAt" });
-            migrationBuilder.CreateIndex(name: "IX_Users_Phone", table: "Users", column: "Phone", unique: true);
-            migrationBuilder.CreateIndex(name: "IX_Users_HubSpotContactId", table: "Users", column: "HubSpotContactId");
-            migrationBuilder.CreateIndex(name: "IX_Conversations_UserId", table: "Conversations", column: "UserId");
-            migrationBuilder.CreateIndex(name: "IX_Messages_ConversationId", table: "Messages", column: "ConversationId");
-            migrationBuilder.CreateIndex(name: "IX_UsageRecords_UserId", table: "UsageRecords", column: "UserId");
-            migrationBuilder.CreateIndex(name: "IX_UsageRecords_ConversationId", table: "UsageRecords", column: "ConversationId");
-            migrationBuilder.CreateIndex(name: "IX_UsageRecords_MessageId", table: "UsageRecords", column: "MessageId", unique: true);
+            migrationBuilder.CreateIndex(
+                name: "IX_Conversations_UserId",
+                table: "Conversations",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_ConversationId",
+                table: "Messages",
+                column: "ConversationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OtpRequests_Phone",
+                table: "OtpRequests",
+                column: "Phone");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OtpRequests_Phone_CreatedAt",
+                table: "OtpRequests",
+                columns: new[] { "Phone", "CreatedAt" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsageRecords_ConversationId",
+                table: "UsageRecords",
+                column: "ConversationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsageRecords_MessageId",
+                table: "UsageRecords",
+                column: "MessageId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsageRecords_UserId",
+                table: "UsageRecords",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_HubSpotContactId",
+                table: "Users",
+                column: "HubSpotContactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Phone",
+                table: "Users",
+                column: "Phone",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "UsageRecords");
-            migrationBuilder.DropTable(name: "Messages");
-            migrationBuilder.DropTable(name: "Conversations");
-            migrationBuilder.DropTable(name: "OtpRequests");
-            migrationBuilder.DropTable(name: "Users");
+            migrationBuilder.DropTable(
+                name: "DataProtectionKeys");
+
+            migrationBuilder.DropTable(
+                name: "OtpRequests");
+
+            migrationBuilder.DropTable(
+                name: "UsageRecords");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
+                name: "Conversations");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
