@@ -4,3 +4,6 @@ bin/
 *.suo
 .vs/
 persianaichat*.db
+
+persianaichat*.db-shm
+persianaichat*.db-wal
