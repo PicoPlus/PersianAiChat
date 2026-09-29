@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,11 @@ public static class DependencyInjection
             opts.UseSqlite(connectionString);
         });
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+        // Data Protection — persist keys to DB so they survive container restarts
+        services.AddDataProtection()
+            .SetApplicationName("PersianAiChat")
+            .PersistKeysToDbContext<ApplicationDbContext>();
 
         // HTTP Clients
         services.AddHttpClient("HubSpotClient", (sp, client) =>

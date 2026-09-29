@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PersianAiChat.Application.Abstractions;
 using PersianAiChat.Domain.Entities;
 
 namespace PersianAiChat.Infrastructure.Persistence;
 
-public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
+public sealed class ApplicationDbContext : DbContext, IApplicationDbContext, IDataProtectionKeyContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -13,6 +14,7 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<UsageRecord> UsageRecords => Set<UsageRecord>();
     public DbSet<OtpRequest> OtpRequests => Set<OtpRequest>();
+    public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

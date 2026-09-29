@@ -17,6 +17,15 @@ namespace PersianAiChat.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
+            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
+            {
+                b.Property<int>("Id").ValueGeneratedOnAdd().HasColumnType("INTEGER");
+                b.Property<string>("FriendlyName").HasColumnType("TEXT");
+                b.Property<string>("Xml").HasColumnType("TEXT");
+                b.HasKey("Id");
+                b.ToTable("DataProtectionKeys");
+            });
+
             modelBuilder.Entity("PersianAiChat.Domain.Entities.Conversation", b =>
             {
                 b.Property<Guid>("Id").ValueGeneratedOnAdd().HasColumnType("TEXT");
