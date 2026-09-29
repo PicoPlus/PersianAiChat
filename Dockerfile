@@ -1,5 +1,5 @@
 # ── Build stage ────────────────────────────────────────────────
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copy solution & project files first (layer cache optimization)
@@ -22,7 +22,7 @@ WORKDIR /src/src/PersianAiChat.Api
 RUN dotnet publish -c Release -o /app/publish --no-restore
 
 # ── Runtime stage ───────────────────────────────────────────────
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
 # Create non-root user
 RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
